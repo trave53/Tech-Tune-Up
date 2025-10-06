@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travis' Tech Tune-Up</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+        }
+
+        /* Header */
+        header {
+            background: linear-gradient(135deg, #3d6b7d 0%, #5a9ab4 100%);
+            padding: 20px 40px;
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 8px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-content {
+            width: 100%;
+            height: 100%;
+            border: 3px solid #3d6b7d;
+            border-radius: 4px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pulse-line {
+            width: 70%;
+            height: 3px;
+            background: #3d6b7d;
+            position: relative;
+        }
+
+        .pulse-line::before {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #3d6b7d;
+            border-radius: 50%;
+            left: 20%;
+            top: -2.5px;
+        }
+
+        .pulse-line::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 10px solid #3d6b7d;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            right: -10px;
+            top: -4.5px;
+        }
+
+        h1 {
+            color: white;
+            font-size: 2.5em;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        /* Navigation */
+        nav {
+            background: white;
+            padding: 0;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: space-around;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav li {
+            flex: 1;
+        }
+
+        nav a {
+            display: block;
+            padding: 20px;
+            text-decoration: none;
+            color: #333;
+            font-weight: 600;
+            text-align: center;
+            transition: background 0.3s;
+        }
+
+        nav a:hover, nav a.active {
+            background: #d0d0d0;
+        }
+
+        /* Main Content */
+        main {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* About Me Page */
+        .about-card {
+            background: #d8d8d8;
+            padding: 40px;
+            border-radius: 10px;
+            display: flex;
+            gap: 40px;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-text h2 {
+            color: #3d6b7d;
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+
+        .about-text p {
+            color: #3d6b7d;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .about-text .credentials {
+            margin-top: 20px;
+        }
+
+        .about-image {
+            width: 300px;
+            height: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .about-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .mission-statement {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .mission-statement p {
+            color: #5a7d8f;
+            font-size: 1.2em;
+            line-height: 1.8;
+            font-style: italic;
+        }
+
+        /* Satisfied Customers Page */
+        .customer-image {
+            max-width: 400px;
+            margin: 40px auto;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .customer-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        /* Services Page */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 40px;
+            margin-top: 40px;
+        }
+
+        .service-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-image {
+            width: 100%;
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .service-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .service-title {
+            padding: 20px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        /* Contact Page */
+        .contact-form {
+            background: white;
+            padding: 50px;
+            border-radius: 10px;
+            max-width: 800px;
+            margin: 40px auto;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .form-group {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .form-group.full {
+            grid-column: 1 / -1;
+            align-items: flex-start;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            min-width: 80px;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #d0d0d0;
+            border-radius: 20px;
+            font-family: inherit;
+            font-size: 1em;
+        }
+
+        .form-group textarea {
+            min-height: 150px;
+            resize: vertical;
+            border-radius: 15px;
+        }
+
+        .phone-number {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            background: #2c4f5e;
+            padding: 30px;
+            margin-top: 60px;
+        }
+
+        .social-icons {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+        }
+
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.1);
+        }
+
+        .social-icon svg {
+            width: 30px;
+            height: 30px;
+        }
+
+        /* Page visibility */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .about-card {
+                flex-direction: column;
+            }
+
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            nav ul {
+                flex-wrap: wrap;
+            }
+
+            nav li {
+                flex: 1 1 50%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <div class="logo-content">
+                <div class="pulse-line"></div>
+            </div>
+        </div>
+        <h1>Travis' Tech Tune-Up</h1>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <ul>
+            <li><a href="#about" class="nav-link active" onclick="showPage('about')">About Me</a></li>
+            <li><a href="#customers" class="nav-link" onclick="showPage('customers')">Satisfied Customers</a></li>
+            <li><a href="#services" class="nav-link" onclick="showPage('services')">Services</a></li>
+            <li><a href="#contact" class="nav-link" onclick="showPage('contact')">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        <!-- About Me Page -->
+        <div id="about" class="page active">
+            <div class="about-card">
+                <div class="about-text">
+                    <h2>Travis McGill</h2>
+                    <p><strong>School computer technician dedicated to providing comprehensive technology solutions for educational institutions.</strong></p>
+                    <div class="credentials">
+                        <p><strong>University of South Carolina</strong><br>
+                        BS Integrated Information Technology<br>
+                        class of 2029</p>
+                        <p style="margin-top: 15px;"><strong>Community College of the Air Force</strong><br>
+                        AAS Aviation Maintenance Technology<br>
+                        2020</p>
+                    </div>
+                </div>
+                <div class="about-image">
+                    <img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400&h=400&fit=crop" alt="Travis McGill">
+                </div>
+            </div>
+
+            <div class="mission-statement">
+                <p>"My mission is to provide reliable, affordable, and personalized technology repairs that will keep customers connected, productive, and confident in a digital world."</p>
+            </div>
+        </div>
+
+        <!-- Satisfied Customers Page -->
+        <div id="customers" class="page">
+            <div class="customer-image">
+                <img src="https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=600&h=600&fit=crop" alt="Custom PC Build">
+            </div>
+        </div>
+
+        <!-- Services Page -->
+        <div id="services" class="page">
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="https://images.unsplash.com/photo-1517694712202-14dd9538aa97?w=500&h=300&fit=crop" alt="Apple/MAC Service">
+                    </div>
+                    <div class="service-title">Apple/MAC</div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500&h=300&fit=crop" alt="PC Service">
+                    </div>
+                    <div class="service-title">PC</div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=500&h=300&fit=crop" alt="Printers & Office Equipment">
+                    </div>
+                    <div class="service-title">Printers & other office</div>
+                </div>
+
+                <div class="service-card">
+                    <div class="service-image">
+                        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=500&h=300&fit=crop" alt="Workspace Setup">
+                    </div>
+                    <div class="service-title">Workspace set up</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Page -->
+        <div id="contact" class="page">
+            <div class="contact-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name">Name:</label>
+                        <input type="text" id="name" name="name">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" id="email" name="email">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">Phone:</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group full">
+                        <label for="message">Message:</label>
+                        <textarea id="message" name="message"></textarea>
+                    </div>
+                </div>
+                <div class="phone-number">
+                    Call me: 555-555-5555
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="social-icons">
+            <div class="social-icon">
+                <svg viewBox="0 0 24 24" fill="#2c4f5e">
+                    <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
+                </svg>
+            </div>
+            <div class="social-icon">
+                <svg viewBox="0 0 24 24" fill="#2c4f5e">
+                    <circle cx="12" cy="12" r="10"/>
+                    <circle cx="12" cy="12" r="4" fill="white"/>
+                </svg>
+            </div>
+            <div class="social-icon">
+                <svg viewBox="0 0 24 24" fill="#2c4f5e">
+                    <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/>
+                </svg>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        function showPage(pageId) {
+            const pages = document.querySelectorAll('.page');
+            const links = document.querySelectorAll('.nav-link');
+            
+            pages.forEach(page => page.classList.remove('active'));
+            links.forEach(link => link.classList.remove('active'));
+            
+            document.getElementById(pageId).classList.add('active');
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
